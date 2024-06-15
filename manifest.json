@@ -1,0 +1,26 @@
+{
+  "description": "Tries to predict what are you going to do with the selected text and does that for you",
+  "manifest_version": 3,
+  "name": "Selection Prediction",
+  "version": "1.0",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+  "icons": {
+    "48": "icons/beasts-48.png"
+  },
+
+  "host_permissions": ["*://*/*"],
+  "permissions": ["activeTab", "scripting", "storage"],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["selected.js"],
+      "css": ["styles.css"]
+    }
+  ],
+
+  "background": {
+    "scripts": ["bundle.js"],
+    "type": "module"
+  }
+}
