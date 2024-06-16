@@ -2,8 +2,8 @@
   "description": "Tries to predict what are you going to do with the selected text and does that for you",
   "manifest_version": 3,
   "name": "Selection Prediction",
-  "version": "1.0",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+  "version": "0.1",
+  "homepage_url": "https://github.com/m1m4/Predict-Selection-Action",
   "icons": {
     "48": "icons/beasts-48.png"
   },
@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["selected.js"],
+      "js": ["src/selected.js"],
       "css": ["styles.css"]
     }
   ],
