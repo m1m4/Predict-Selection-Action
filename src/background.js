@@ -28,6 +28,14 @@ const TOP_25_CURRENCIES = [
   CurrencyCode.HUF,
 ];
 
+/**
+ * Attempts to fetch the user's currency based on their IP address using the ipapi.co service.
+ * If the fetch is successful, it returns the user's currency code. If the fetch fails or no
+ * currency code is found, it defaults to "USD".
+ *
+ * @returns {Promise<string>} The user's currency code, or "USD" if it cannot be determined.
+ */
+// TODO: find currency based on country name if currency variable is not available.
 async function findUserCurrency() {
   try {
     const response = await fetch("https://ipapi.co/json/");
@@ -40,6 +48,13 @@ async function findUserCurrency() {
   }
 }
 
+/**
+ * Fetches the latest exchange rates for the top 25 currencies and stores them in the browser's local storage.
+ *
+ * @param {string} target_currency - The currency code of the target currency to fetch rates for.
+ * @returns {Promise<{ rates: { [key: string]: [number, number] } }>} - An object containing the fetched exchange rates with
+ *  the first number being the rate and the second is date in miliseconds.
+ */
 async function updateRates(target_currency) {
   let rates = {};
   for (const currency of TOP_25_CURRENCIES) {
@@ -64,7 +79,13 @@ async function updateRates(target_currency) {
   return { rates: rates };
 }
 
-async function handleMessage(request, sender, sendResponse) {
+/**
+ * Handles a message request by fetching the latest exchange rates from the browser's local storage and returning the rate for the first currency in the request.
+ *
+ * @param {Object} request - The message request object, which should contain a `currencies` property with an array of currency codes.
+ * @returns {Promise<number>} - The exchange rate for the first currency in the `currencies` array.
+ */
+async function handleMessage(request) {
   let rates = await browser.storage.local.get("rates");
   rates = rates.rates;
 
@@ -78,32 +99,14 @@ async function handleMessage(request, sender, sendResponse) {
     rates = rates.rates;
   }
 
-  // Check if rates are available and waits if not
-  // if (!rates) {
-  //   console.log("Waiting for rates to be fetched");
-
-  //   async function waitForRates(changes) {
-  //     if (changes.rates) {
-  //       rates = changes.rates.newValue;
-  //       console.log(rates);
-  //     }
-
-  //     browser.storage.local.onChanged.removeListener(waitForRates);
-  //   }
-  //   browser.storage.local.onChanged.addListener(waitForRates);
-  // }
-
-  // const response = await googleCurrencyScraper({
-  //   from: request.currencies[0],
-  //   to: defaultCurrency,
-  // });
-
   // TODO: add support for all the currencies selected, instead of the first one
   return rates[request.currencies[0]][0];
 }
 
+
 async function startup() {
   // Check if the user has set a default currency
+  // TODO: send default currency to content script
   let defaultCurrency = await browser.storage.local.get("default_currency");
   if (Object.keys(defaultCurrency).length == 0) {
     console.log("No default currency found, setting default currency");
@@ -112,6 +115,7 @@ async function startup() {
     console.log("Default currency was set to " + defaultCurrency);
   } else {
     console.log("Default Currency found!");
+    defaultCurrency = defaultCurrency.default_currency;
   }
 
   // Check if the user has rates for the default currency

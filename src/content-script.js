@@ -1,13 +1,17 @@
 DEF_CURRENCY = "ILS";
 
 async function main() {
-  document.addEventListener("mouseup", async (e) => {
-    let selection = document.getSelection().toString();
 
+  //Handles the user's mouse up event and creates a popup with price information for the selected text.
+  document.addEventListener("mouseup", async (e) => {
+    
+    
+    let selection = document.getSelection().toString();
     if (selection) {
       let popup = document.createElement("div");
       popup.id = "selection-popup";
 
+      // Run a function that creates the popup element
       const price = (async () => {
         const prices = extractPrice(selection);
         const currencies = prices.map(([currency, number]) => currency);
@@ -33,6 +37,7 @@ async function main() {
     }
   });
 
+  // Remove the popup when another click is registered
   document.addEventListener("mousedown", (e) => {
     popup = document.getElementById("selection-popup");
     if (popup) {
@@ -46,6 +51,7 @@ async function main() {
    * @param {string} input - The input string containing prices.
    * @returns {Array<[string, string]>} - An array of price tuples, where the first element is the currency code and the second element is the price value.
    */
+  // TODO: add support for more currencies - use library from https://github.com/albertyw/currency-symbol-map
   function extractPrice(input) {
     // Regex setup
     const currencySymbolRegex = /[$€£¥]/.source;
@@ -94,12 +100,17 @@ async function main() {
       "£": "GBP",
       "€": "EUR",
       "¥": "JPY",
+      "₩": "KRW",
+      "₪": "ILS",
+      "₹": "INR",
+      "₽": "RUB",
     };
 
     return currencySymbols[input] || input;
   }
 }
 
+// Error handler
 function handleError(error) {
   console.log(`Error: ${error}`);
 }
