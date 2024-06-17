@@ -1,0 +1,19 @@
+{
+  "typeAcquisition": { "include": ["firefox-webext-browser"] },
+
+  "compilerOptions": {
+    "outDir": "./dist/compiled",
+    "moduleResolution": "bundler",
+    "removeComments": false,
+    "sourceMap": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": true,
+    "target": "ES2018",
+    "lib": ["es2017", "DOM"],
+    "module": "Preserve"
+  },
+  "include": ["./src/background.ts", "./src/content-script.ts"]
+}

@@ -1,11 +1,24 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import typescript from "@rollup/plugin-typescript";
 
-export default {
-  input: "src/background.js",
-  output: {
-    file: "bundle.js",
-    format: "es",
+export default [
+  {
+    input: "dist/compiled/background.js",
+    output: {
+      file: "dist/background.js",
+      format: "es",
+      sourcemap: true,
+    },
+    plugins: [nodeResolve(), commonjs(), typescript()],
   },
-  plugins: [nodeResolve(), commonjs()],
-};
+  {
+    input: "dist/compiled/content-script.js",
+    output: {
+      file: "dist/content-script.js",
+      format: "es",
+      sourcemap: true,
+    },
+    plugins: [commonjs(), typescript()],
+  },
+];

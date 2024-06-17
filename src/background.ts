@@ -1,3 +1,5 @@
+// TODO: switch to a more compact library for currency conversion
+// @ts-ignore
 import googleCurrencyScraper, { CurrencyCode } from "google-currency-scraper";
 
 const TOP_25_CURRENCIES = [
@@ -55,8 +57,8 @@ async function findUserCurrency() {
  * @returns {Promise<{ rates: { [key: string]: [number, number] } }>} - An object containing the fetched exchange rates with
  *  the first number being the rate and the second is date in miliseconds.
  */
-async function updateRates(target_currency) {
-  let rates = {};
+async function updateRates(target_currency: string) {
+  let rates: { [key: string]: [number, number] } = {};
   for (const currency of TOP_25_CURRENCIES) {
     if (target_currency == currency) {
       continue;
@@ -66,6 +68,7 @@ async function updateRates(target_currency) {
       from: currency,
       to: target_currency,
     });
+
     rates[currency] = [
       rate.rate,
       Date.parse(rate.dateUpdated + new Date().getFullYear()),
@@ -85,7 +88,7 @@ async function updateRates(target_currency) {
  * @param {Object} request - The message request object, which should contain a `currencies` property with an array of currency codes.
  * @returns {Promise<number>} - The exchange rate for the first currency in the `currencies` array.
  */
-async function handleMessage(request) {
+async function handleMessage(request: any) {
   let rates = await browser.storage.local.get("rates");
   rates = rates.rates;
 
@@ -103,24 +106,24 @@ async function handleMessage(request) {
   return rates[request.currencies[0]][0];
 }
 
-
 async function startup() {
   // Check if the user has set a default currency
   // TODO: send default currency to content script
-  let defaultCurrency = await browser.storage.local.get("default_currency");
-  if (Object.keys(defaultCurrency).length == 0) {
+  let defaultCurrency =
+    (await browser.storage.local.get("default_currency")).default_currency ||
+    "";
+  if (!defaultCurrency) {
     console.log("No default currency found, setting default currency");
     defaultCurrency = await findUserCurrency();
     await browser.storage.local.set({ default_currency: defaultCurrency });
     console.log("Default currency was set to " + defaultCurrency);
   } else {
     console.log("Default Currency found!");
-    defaultCurrency = defaultCurrency.default_currency;
   }
 
   // Check if the user has rates for the default currency
   let rates = await browser.storage.local.get("rates");
-  if (Object.keys(rates).length == 0) {
+  if (Object.keys(rates).length === 0) {
     console.log("No rates found, updating rates");
     await updateRates(defaultCurrency);
     console.log("Rates updated");
@@ -129,4 +132,5 @@ async function startup() {
   }
 }
 
-startup().then(browser.runtime.onMessage.addListener(handleMessage));
+startup();
+browser.runtime.onMessage.addListener(handleMessage);
