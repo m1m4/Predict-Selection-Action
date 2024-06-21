@@ -19,8 +19,8 @@
   "scripts": {
     "_clear": "rimraf --glob dist/**/*",
     "_make_bundle": "rollup -c",
-    "_tsc": "tsc",
-    "build": "npm run _clear && npm run _tsc && npm run _make_bundle"
+    "_compile": "tsc",
+    "build": "npm run _clear && npm run _compile && npm run _make_bundle"
   },
   "type": "module"
 }

@@ -14,13 +14,13 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["dist/compiled/content-script.js"],
+      "js": ["dist/content-script.js"],
       "css": ["styles.css"]
     }
   ],
 
   "background": {
-    "scripts": ["dist/bundle.js"],
+    "scripts": ["dist/background.js"],
     "type": "module"
   }
 }
