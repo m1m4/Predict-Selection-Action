@@ -5,14 +5,16 @@ The main idea behind this project is to improve productivity when surfing on the
 
 ## How to run
 
+Compiling and bundling the extension:
+
 1. Clone repository
 2. Install all dependencies ("npm install")
-3. In the command line, type "rollup -c" to bundle the scripts
+3. Run "npm run build" to bundle the scripts
 
-After you have all the steps above, the extension is able to run. To run an extension in Firefox:
+Running in Firefox:
 
 1. Go to the "about:debugging#/runtime/this-firefox"
-2. clic
+2. Click "Load Temporary Add-on" and choose the manifest.json file
 
 ## Status - 16/06/2024
 
