@@ -1,19 +1,18 @@
 #selection-popup {
+  all: initial;
   border: 0px solid rgb(226, 226, 226);
   border-radius: 3px;
   background-color: rgb(255, 255, 255);
   box-sizing: content-box;
   box-shadow: rgba(0, 0, 0, 0.26) 0px 1px 3px 2px;
-  padding: 0 7px;
-  font-family: helvetica;
-  font-size: 0.8em;
   display: inline-block;
   position: fixed;
 }
 
 ._price {
-  margin: 7px 0;
+  all: inherit;
+  padding: 7px;
   font-family: helvetica;
   text-align: left;
-  font-size: 1.2em;
+  font-size: 0.8rem;
 }
