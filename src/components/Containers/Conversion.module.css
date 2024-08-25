@@ -1,0 +1,48 @@
+.container {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  margin: 0.5em;
+}
+
+.divider {
+  border-top: 1px solid #000;
+  min-width: 95%;
+  margin: 0.5em 0;
+}
+
+.special_price {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 1em 0.5em 0;
+}
+
+.special_price_text {
+  margin: 0;
+  background-color: rgb(69, 158, 240, 0.5);
+  color: #000000;
+  padding: 0.15em 0.3em;
+  text-align: center;
+  border-radius: 0.5em;
+}
+
+.special_price_tag {
+  margin: 0;
+  font-size: 0.75em;
+}
+
+#total {
+  color: #02be2b;
+  font-weight: 500;
+}

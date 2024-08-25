@@ -1,0 +1,27 @@
+/* Popup.module.css */
+.popup {
+  all: initial;
+  font-family: Inter, Helvetica, system-ui, Avenir, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: center;
+
+  border: 0px solid rgb(226, 226, 226);
+  border-radius: 0.5em;
+  background-color: rgb(255, 255, 255);
+  box-sizing: content-box;
+  box-shadow: rgba(0, 0, 0, 0.26) 0px 1px 3px 2px;
+  color: black;
+
+  position: absolute;
+}
+
+.popup_container {
+  padding: 0.5em;
+}
+
+.popup_prompt {
+  padding: 0.3em 0.3em 0;
+  cursor: pointer;
+  display: block;
+}

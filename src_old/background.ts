@@ -1,5 +1,4 @@
 // TODO: switch to a more compact library for currency conversion
-// @ts-ignore
 import googleCurrencyScraper, { CurrencyCode } from "google-currency-scraper";
 
 const TOP_25_CURRENCIES = [
@@ -58,7 +57,7 @@ async function findUserCurrency() {
  *  the first number being the rate and the second is date in miliseconds.
  */
 async function updateRates(target_currency: string) {
-  let rates: { [key: string]: [number, number] } = {};
+  const rates: { [key: string]: [number, number] } = {};
   for (const currency of TOP_25_CURRENCIES) {
     if (target_currency == currency) {
       continue;
@@ -88,6 +87,7 @@ async function updateRates(target_currency: string) {
  * @param {Object} request - The message request object, which should contain a `currencies` property with an array of currency codes.
  * @returns {Promise<number>} - The exchange rate for the first currency in the `currencies` array.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleMessage(request: any) {
   let rates = await browser.storage.local.get("rates");
   rates = rates.rates;
@@ -122,7 +122,7 @@ async function startup() {
   }
 
   // Check if the user has rates for the default currency
-  let rates = await browser.storage.local.get("rates");
+  const rates = await browser.storage.local.get("rates");
   if (Object.keys(rates).length === 0) {
     console.log("No rates found, updating rates");
     await updateRates(defaultCurrency);

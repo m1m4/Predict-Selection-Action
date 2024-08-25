@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const DEF_CURRENCY = "ILS";
 
 async function main() {
   // Handles the user's mouse up event and creates a popup with price information for the selected text.
   document.addEventListener("mouseup", async (e) => {
-    let selection = document.getSelection()?.toString();
+    const selection = document.getSelection()?.toString();
     if (selection) {
-      let popup = document.createElement("div");
+      const popup = document.createElement("div");
       popup.id = "selection-popup";
 
       // Run a function that creates the popup element
@@ -13,14 +14,14 @@ async function main() {
         const prices = extractPrice(selection);
         const currencies = prices.map(([currency, number]) => currency);
 
-        let rate = await browser.runtime.sendMessage({
+        const rate = await browser.runtime.sendMessage({
           command: "get-rates",
           currencies: currencies,
         });
 
         for (const [currency, number] of prices) {
           const text = `${(number * rate).toFixed(2)} ${DEF_CURRENCY}`;
-          let price = document.createElement("div");
+          const price = document.createElement("div");
           price.className = "_price";
           price.innerText = text;
           popup.appendChild(price);
@@ -35,8 +36,8 @@ async function main() {
   });
 
   // Remove the popup when another click is registered
-  document.addEventListener("mousedown", (e) => {
-    let popup = document.getElementById("selection-popup");
+  document.addEventListener("mousedown", () => {
+    const popup = document.getElementById("selection-popup");
     if (popup) {
       document.body.removeChild(popup);
     }
@@ -79,7 +80,7 @@ async function main() {
     // Extract currency and number
     let prices: Array<[string, number]> = [];
 
-    for (let match of [...(matches ?? [])]) {
+    for (const match of [...(matches ?? [])]) {
       const [
         fullMatch,
         currencyBefore,

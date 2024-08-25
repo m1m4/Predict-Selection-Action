@@ -5,7 +5,7 @@
   "version": "0.1",
   "homepage_url": "https://github.com/m1m4/Predict-Selection-Action",
   "icons": {
-    "48": "icons/icon-48.png"
+    "48": "assets/icons/icon-48.png"
   },
 
   "host_permissions": ["*://*/*"],
@@ -14,8 +14,8 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["dist/content-script.js"],
-      "css": ["styles.css"]
+      "js": ["dist/script.js"],
+      "css": ["dist/styles.css"]
     }
   ],
 
