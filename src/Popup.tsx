@@ -2,8 +2,11 @@
 import "./Popup.css";
 import Icon from "../../assets/icons/icon-24.png";
 
-import { TotalCoversions, TotalCoversionsProps } from "./Containers/Conversion";
-import { predictUse } from "../selection";
+import {
+  TotalCoversions,
+  TotalCoversionsProps,
+} from "./components/Containers/Conversion";
+import { predictUse } from "./selection";
 import { useEffect, useState } from "react";
 
 // Offset of the popup from the cursor - [x, y]

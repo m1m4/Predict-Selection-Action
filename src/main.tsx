@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Popup from "./components/Popup";
+import Popup from "./Popup";
 
 const predictModal = document.createElement("div");
 predictModal.id = "predict-modal";
