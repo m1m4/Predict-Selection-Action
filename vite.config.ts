@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         dir: "dist/",
-        entryFileNames: "script.js",
+        entryFileNames: "content-script.js",
         assetFileNames: "styles.css",
       },
     },
