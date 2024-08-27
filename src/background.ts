@@ -103,7 +103,7 @@ async function handleMessage(request: any) {
   }
 
   // TODO: add support for all the currencies selected, instead of the first one
-  return rates[request.currencies[0]][0];
+  return { [request.currencies[0]]: rates[request.currencies[0]][0] };
 }
 
 async function startup() {

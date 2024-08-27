@@ -3,6 +3,7 @@ import styles from "./Conversion.module.css";
 import Arrows from "../../../assets/arrows.svg?react";
 import Plus from "../../../assets/plus.svg?react";
 import Equals from "../../../assets/equals.svg?react";
+import { useEffect, useState } from "react";
 
 // Colors for extra prices
 const COLORS: { [key: string]: string } = {
@@ -14,7 +15,7 @@ const COLORS: { [key: string]: string } = {
 
 function calculateTaxes(price: number) {
   //Replace with your tax calculations
-  if (price > 75) {
+  if (price > 276) {
     return price * 0.18;
   } else return 0;
 }
@@ -117,11 +118,11 @@ export function Conversion({
   return (
     <div className={styles.content}>
       <p className={styles.item}>
-        {original_price} {original_currency}
+        {original_price.toFixed(2)} {original_currency}
       </p>
       <Arrows />
       <p className={styles.item}>
-        {converted_price} {converted_currency}
+        {converted_price.toFixed(2)} {converted_currency}
       </p>
       {ExtraPricesElements}
       <Equals />
@@ -145,15 +146,20 @@ export interface TotalCoversionsProps {
 export function TotalCoversions({
   prices = [["USD", 100]],
 }: TotalCoversionsProps) {
-  function fetchRates(currencies: string[]) {
-    console.log(currencies);
-    // TODO: fetch rates from background script
-    return { USD: 2, EUR: 1.5, GBP: 4 };
-  }
+  const [rates, setRates] = useState<{ [key: string]: number }>({});
 
-  const rates: { [key: string]: number } = fetchRates(
-    prices.map(([currency]) => currency)
-  );
+  useEffect(() => {
+    async function fetchRates(currencies: string[]) {
+      const fetchedRates = await browser.runtime.sendMessage({
+        command: "get-rates",
+        currencies: currencies,
+      });
+
+      setRates(fetchedRates);
+    }
+
+    fetchRates(prices.map(([currency]) => currency));
+  }, [prices]);
 
   // TODO: fetch default currency from background script
   const defaultCurrency = "ILS";

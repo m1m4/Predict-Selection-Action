@@ -1,4 +1,3 @@
-
 /**
  * Extracts prices from a given input string, handling different currency symbols and formats.
  *
