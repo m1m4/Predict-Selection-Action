@@ -1,6 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 import "./Popup.css";
-import Icon from "../../assets/icons/icon-24.png";
+import Icon from "../assets/icons/icon-24.png";
 
 import {
   TotalCoversions,
