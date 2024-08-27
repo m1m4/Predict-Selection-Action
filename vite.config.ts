@@ -7,6 +7,7 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   base: "./",
   build: {
+    sourcemap: true,
     rollupOptions: {
       output: {
         dir: "dist/",
