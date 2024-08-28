@@ -46,6 +46,7 @@ function Popup() {
         return;
       }
 
+      // Tries to guess which container to show
       const [prediction, props] = predictUse(selection);
       setContainerType(prediction);
       setContainerProps(props);
