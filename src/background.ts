@@ -45,6 +45,7 @@ async function findUserCurrency() {
     return userCurrency;
   } catch (error) {
     console.error("Error fetching user currency:", error);
+    console.log("Default currency set to USD");
     return "USD"; // Default to USD if an error occurs
   }
 }
@@ -89,26 +90,47 @@ async function updateRates(target_currency: string) {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleMessage(request: any) {
-  let rates = await browser.storage.local.get("rates");
-  rates = rates.rates;
+  switch (request.command) {
+    case "get_rates": {
+      let rates = await browser.storage.local.get("rates");
+      rates = rates.rates;
 
-  if (!rates) {
-    console.log("Waiting for rates to be fetched");
-  }
-  // Wait until rates are available
-  while (!rates) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    rates = await browser.storage.local.get("rates");
-    rates = rates.rates;
-  }
+      if (!rates) {
+        console.log("Waiting for rates to be fetched");
+      }
+      // Wait until rates are available
+      while (!rates) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        rates = await browser.storage.local.get("rates");
+        rates = rates.rates;
+      }
 
-  // TODO: add support for all the currencies selected, instead of the first one
-  return { [request.currencies[0]]: rates[request.currencies[0]][0] };
+      // TODO: add support for all the currencies selected, instead of the first one
+      return { [request.currencies[0]]: rates[request.currencies[0]][0] };
+    }
+    case "get_default_currency": {
+      let defaultCurrency = await browser.storage.local.get("default_currency");
+      defaultCurrency = defaultCurrency.default_currency;
+
+      if (!defaultCurrency) {
+        console.log("Waiting for default currency to be fetched");
+      }
+      // Wait until rates are available
+      while (!defaultCurrency) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        defaultCurrency = await browser.storage.local.get("default_currency");
+        defaultCurrency = defaultCurrency.default_currency;
+      }
+
+      return defaultCurrency;
+    }
+    default:
+      return "Unknown command";
+  }
 }
 
 async function startup() {
   // Check if the user has set a default currency
-  // TODO: send default currency to content script
   let defaultCurrency =
     (await browser.storage.local.get("default_currency")).default_currency ||
     "";
