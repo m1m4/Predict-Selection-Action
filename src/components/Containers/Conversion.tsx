@@ -147,22 +147,29 @@ export function TotalCoversions({
   prices = [["USD", 100]],
 }: TotalCoversionsProps) {
   const [rates, setRates] = useState<{ [key: string]: number }>({});
+  const [defaultCurrency, setDefaultCurrency] = useState<string>("ILS");
 
   useEffect(() => {
     async function fetchRates(currencies: string[]) {
       const fetchedRates = await browser.runtime.sendMessage({
-        command: "get-rates",
+        command: "get_rates",
         currencies: currencies,
       });
 
       setRates(fetchedRates);
     }
 
+    async function fetchDefaultCurrency() {
+      const fetchedDefaultCurrency = await browser.runtime.sendMessage({
+        command: "get_default_currency",
+      });
+
+      setDefaultCurrency(fetchedDefaultCurrency);
+    }
+
+    fetchDefaultCurrency();
     fetchRates(prices.map(([currency]) => currency));
   }, [prices]);
-
-  // TODO: fetch default currency from background script
-  const defaultCurrency = "ILS";
 
   const conversions = prices.map(([currency, price], index) => {
     const conversionProps = {
